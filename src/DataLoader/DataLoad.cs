@@ -48,20 +48,11 @@ namespace DataLoader
 
         public Dictionary<string, string> GetKeyValueListData()
         {
-            var result = new Dictionary<string, Dictionary<string, string>>();
             string path = Path.Combine("../DATA." + fmt.fileType + "/" + DateTime.Now.ToString("yyyyMMdd"), fmt.FileName);
             return File.ReadLines(path)
                 .Select(line => line.Split(fmt.Separator))
                 .ToDictionary(cells => cells[0].Trim(), cells => {
-                    if(cells.Length == 1)
-                    {
-                        return cells[0].Trim();
-                    }
-                    else if (cells.Length == 2 && cells[2].Trim() != "")
-                    {
-                        return string.Format("{0},{1}", cells[1].Trim(), cells[2].Trim());
-                    }
-                    return "";
+                    return string.Format("{0},{1}", cells[1].Trim(), cells[2].Trim());
                 });
         }
     }
