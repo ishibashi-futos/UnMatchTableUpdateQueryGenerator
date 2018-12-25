@@ -25,15 +25,7 @@ namespace DataLoader
         public Dictionary<string, string> GetKeyValuesData()
         {
             
-            string path = "";
-            if (fmt.fileType == "OLD")
-            {
-                path = Path.Combine("../DATA.OLD/" + DateTime.Now.ToString("yyyyMMdd"), fmt.FileName);
-            }
-            else if (fmt.fileType == "NEW")
-            {
-                path = Path.Combine("../DATA.NEW/" + DateTime.Now.ToString("yyyyMMdd"), fmt.FileName);
-            }
+            string path = Path.Combine("../DATA." + fmt.fileType + "/" + DateTime.Now.ToString("yyyyMMdd"), fmt.FileName);
             return File.ReadLines(path)
                 .Select(line => line.Split(fmt.Separator))
                 .ToDictionary(cells => cells[0].Trim(), cells => cells[1].Trim());
