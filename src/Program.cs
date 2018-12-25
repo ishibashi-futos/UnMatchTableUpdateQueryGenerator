@@ -9,34 +9,33 @@ namespace UnMatchTableUpdateQueryGenerator
     {
         static void Main(string[] args)
         {
-            FileFormat fmt = new FileFormat();
+            if (args.Length < 2)
+            {
+                Console.Error.WriteLine("引数が不足しています");
+                Environment.Exit(-1);
+            }
 
-            fmt.FileName = "TEST_OLD.CSV";
-            fmt.Separator = ',';
-            fmt.fileType = "OLD";
-            fmt.DataPatchQuery = "UPDATE TEMP SET VALUE = '{0}' WHERE KEY = '{0}';";
+            // 設定の読み込み
+            var fmtOld = Format.fmtLoader.load(args[0]);
+            var fmtNew = Format.fmtLoader.load(args[1]);
 
+            // ファイルを読み込み
             Dictionary<string, string> old = new Dictionary<string, string>();
-            Dictionary<string, string> old2 = new Dictionary<string, string>();
-            using(var dl = new DataLoad(fmt))
+            using(var dl = new DataLoad(fmtOld))
             {
                 old = dl.GetKeyValuesData();
             }
-
-            fmt.FileName = "TEST_NEW.CSV";
-            fmt.fileType = "NEW";
-
-            using(var dl = new DataLoad(fmt))
+            Dictionary<string, string> @new = new Dictionary<string, string>();
+            using(var dl = new DataLoad(fmtNew))
             {
-                old2 = dl.GetKeyValuesData();
+                @new = dl.GetKeyValuesData();
             }
 
             foreach(KeyValuePair<string, string> kvp in old)
             {
-                if(old2[kvp.Key] != kvp.Value)
+                if(@new[kvp.Key] != kvp.Value)
                 {
-                    Console.WriteLine("UnMatchLine = OLD1:{0},OLD2:{1}", old[kvp.Key], old2[kvp.Key]);
-                    Console.WriteLine(fmt.DataPatchQuery, kvp.Value, kvp.Key);
+                    Console.WriteLine("QueryString => {0}", string.Format(fmtOld.DataPatchQuery, kvp.Value, kvp.Key));
                 }
             }
         }
