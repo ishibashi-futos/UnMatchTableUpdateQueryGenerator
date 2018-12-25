@@ -1,7 +1,9 @@
 ﻿using System;
-using Format;
-using DataLoader;
 using System.Collections.Generic;
+
+using DataLoader;
+using Format;
+using Compare;
 
 namespace UnMatchTableUpdateQueryGenerator
 {
@@ -21,22 +23,31 @@ namespace UnMatchTableUpdateQueryGenerator
 
             // ファイルを読み込み
             Dictionary<string, string> old = new Dictionary<string, string>();
-            using(var dl = new DataLoad(fmtOld))
-            {
-                old = dl.GetKeyValuesData();
-            }
             Dictionary<string, string> @new = new Dictionary<string, string>();
-            using(var dl = new DataLoad(fmtNew))
-            {
-                @new = dl.GetKeyValuesData();
-            }
 
-            foreach(KeyValuePair<string, string> kvp in old)
+            if(fmtOld.ValueType == "SingleItem")
             {
-                if(@new[kvp.Key] != kvp.Value)
+                using(var dl = new DataLoad(fmtOld))
                 {
-                    Console.WriteLine("OutputQuery => {0}", string.Format(fmtOld.DataPatchQuery, kvp.Value, kvp.Key));
+                    old = dl.GetKeyValuesData();
                 }
+                using(var dl = new DataLoad(fmtNew))
+                {
+                    @new = dl.GetKeyValuesData();
+                }
+                Compare.Compare.CompareKeyValueData(old, @new, fmtOld);
+            }
+            else if (fmtOld.ValueType == "ListItem")
+            {
+                using(var dl = new DataLoad(fmtOld))
+                {
+                    old = dl.GetKeyValueListData();
+                }
+                using(var dl = new DataLoad(fmtNew))
+                {
+                    @new = dl.GetKeyValueListData();
+                }
+                Compare.Compare.CompareKeyValueListData(old, @new, fmtOld);
             }
         }
     }

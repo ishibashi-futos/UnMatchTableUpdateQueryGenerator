@@ -1,6 +1,7 @@
 {
   "FileName":"TEST_NEW.CSV",
   "fileType":"NEW",
+  "ValueType":"SingleItem",
   "Separator":",",
   "DataPatchQuery":"UPDATE TEST SET VAL = '{0}' WHERE KEY = '{1}';"
 }
