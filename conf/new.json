@@ -1,7 +1,7 @@
 {
   "FileName":"TEST_NEW.CSV",
   "fileType":"NEW",
-  "ValueType":"SingleItem",
+  "ValueType":"ListItem",
   "Separator":",",
-  "DataPatchQuery":"UPDATE TEST SET VAL = '{0}' WHERE KEY = '{1}';"
+  "DataPatchQuery":"UPDATE TEST SET VAL = '{0}', VAL2 = '{1}' WHERE KEY = '{2}';"
 }

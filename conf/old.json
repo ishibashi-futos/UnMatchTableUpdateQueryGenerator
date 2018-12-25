@@ -2,5 +2,6 @@
   "FileName":"TEST_OLD.CSV",
   "fileType":"OLD",
   "Separator":",",
-  "DataPatchQuery":"UPDATE TEST SET VAL = '{0}' WHERE KEY = '{1}';"
+  "ValueType":"ListItem",
+  "DataPatchQuery":"UPDATE TEST SET VAL = '{0}', VAL2 = '{1}' WHERE KEY = '{2}';"
 }
