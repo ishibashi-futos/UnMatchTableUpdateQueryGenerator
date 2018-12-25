@@ -35,7 +35,7 @@ namespace UnMatchTableUpdateQueryGenerator
             {
                 if(@new[kvp.Key] != kvp.Value)
                 {
-                    Console.WriteLine("QueryString => {0}", string.Format(fmtOld.DataPatchQuery, kvp.Value, kvp.Key));
+                    Console.WriteLine("OutputQuery => {0}", string.Format(fmtOld.DataPatchQuery, kvp.Value, kvp.Key));
                 }
             }
         }
