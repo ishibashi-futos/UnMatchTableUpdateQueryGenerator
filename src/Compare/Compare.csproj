@@ -5,6 +5,7 @@
   </ItemGroup>
 
   <PropertyGroup>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
     <TargetFramework>netstandard2.0</TargetFramework>
   </PropertyGroup>
 
