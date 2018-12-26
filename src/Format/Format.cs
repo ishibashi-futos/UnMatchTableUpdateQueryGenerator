@@ -13,6 +13,7 @@ namespace Format
         public string ValueType { get; set; }
         public string fileType { get; set;}
         public string DataPatchQuery { get; set; }
+        public string InsertQuery { get; set; }
     }
 
     public static class fmtLoader

@@ -11,9 +11,19 @@ namespace Compare
         {
             foreach(KeyValuePair<string, string> kvp in old)
             {
-                if(@new[kvp.Key] != kvp.Value)
+                // 該当キーが存在する場合
+                if(@new.ContainsKey(kvp.Key))
                 {
-                    Console.WriteLine("OutputQuery => {0}", string.Format(fmtOld.DataPatchQuery, kvp.Value, kvp.Key));
+                    // Valueに誤りがある場合
+                    if(@new[kvp.Key] != kvp.Value)
+                    {
+                        Console.WriteLine("OutputQuery => {0}", string.Format(fmtOld.DataPatchQuery, kvp.Value, kvp.Key));
+                    }
+                }
+                else
+                {
+                    // キーが存在しない場合、INSERTクエリを出力する
+                    Console.WriteLine("OutputQuery => {0}", string.Format(fmtOld.InsertQuery, kvp.Value, kvp.Key));
                 }
             }
         }
@@ -22,10 +32,17 @@ namespace Compare
         {
             foreach(KeyValuePair<string, string> kvp in old)
             {
-                if(@new[kvp.Key] != kvp.Value)
+                var val = kvp.Value.Split(',');
+                if(@new.ContainsKey(kvp.Key))
                 {
-                    var val = kvp.Value.Split(',');
-                    Console.WriteLine("OutputQuery => {0}", string.Format(fmtOld.DataPatchQuery, val[0], val[1], kvp.Key));
+                    if(@new[kvp.Key] != kvp.Value)
+                    {
+                        Console.WriteLine("OutputQuery => {0}", string.Format(fmtOld.DataPatchQuery, val[0], val[1], kvp.Key));
+                    }
+                }
+                else
+                {
+                    Console.WriteLine("OutputQuery => {0}", string.Format(fmtOld.InsertQuery, val[0], val[1], kvp.Key));
                 }
             }
         }
